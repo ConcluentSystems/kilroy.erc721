@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "https://github.com/ConcluentSystems/kilroy.erc721/src/contracts/tokens/nf-token-metadata.sol";
-import "https://github.com/ConcluentSystems/kilroy.erc721/contracts/tokens/nf-token-enumerable.sol";
-import "https://github.com/ConcluentSystems/kilroy.erc721/src/contracts/ownership/ownable.sol";
-
+import "https://github.com/ConcluentSystems/kilroy.erc721/blob/master/src/contracts/tokens/nf-token-metadata.sol";
+import "https://github.com/ConcluentSystems/kilroy.erc721/blob/master/src/contracts/tokens/nf-token-enumerable.sol";
+import "https://github.com/ConcluentSystems/kilroy.erc721/blob/master/src/contracts/ownership/ownable.sol";
 /**
  * @dev This is an example contract implementation of NFToken with metadata extension.
  */
