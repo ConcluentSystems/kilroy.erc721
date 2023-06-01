@@ -1,0 +1,27 @@
+{
+    "manifestVersion": 1,
+    "id"            : "kilroy.samplekchap",
+    "displayName"   : "Kilroy Sample Chain App",
+    "desc"          : "A simple demonstration KCHAP",
+    "version"       : "1.0",
+    "author"        : "Kilroy DAO",
+    "authorInfoUrl" : "http://kilroydao.com",
+    "appInfoUrl"    : "/apps/kilroy.samplekchap/index.html",
+    "appImageUrl"   : "https://kilroydao.com/wp-content/uploads/2022/04/kilroy-transparent-cropped-1.png",
+    "initEntrypoints": [
+        {
+            "pdName"    : "samplekchap",
+            "pdAlias"   : "kilroy.samplekchap",
+            "webhook"   : "init",
+            "args"      : {"msg":"PD Initialized OK!!"}
+        }
+    ],
+    "userEntrypoints": [
+        {
+            "pdAlias"   : "kilroy.samplekchap",
+            "desc"      : "Kilroy Sample KCHAP"
+        }
+    ],
+    "stopEntrypoints": [
+    ]
+}

@@ -7,7 +7,7 @@ import "https://github.com/ConcluentSystems/kilroy.erc721/blob/master/src/contra
 /**
  * @dev This is an example contract implementation of NFToken with metadata extension.
  */
-contract ChaseToken is
+contract KilroyCHAP1Token is
   NFTokenEnumerable,
   NFTokenMetadata,
   Ownable
