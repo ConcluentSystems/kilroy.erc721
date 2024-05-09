@@ -7,9 +7,9 @@
     <title>Kilroy Sample KCHAP</title>
 </head>
 
-<body style="background-color:#112C39;">
+<body style="background-color:#2A303C;">
     <section class="my-2 py-2">
-        <div class="container rounded-3 border border-white" style="background-color: #336D79;">
+        <div class="container rounded-3 border border-gray" style="background-color: #242933;">
             <div class="row pt-4">
                 <div class="col-lg-4 col-sm-12">
                     <div class="card card-background tilt" data-tilt="">
@@ -23,29 +23,29 @@
                     <div class="row">
                         <div class="col-12 mb-3">
                             <div class="info bg-light rounded-3 px-3 py-3">
-                                <h5 class="font-weight-bolder">Sample Kilroy Chain App - SpiritSwap Loan $FTM</h5>
-                                <p class="pe-5">This will loan the specified amount of $FTM on the SpiritSwap platform</p>
+                                <h5 class="font-weight-bolder">Sample Kilroy Chain App - Loan v1.2</h5>
+                                <p class="pe-5">This will loan the specified amount of <span id="base4"></span> currency</p>
                                 <div class="row">
                                     <div class="col-sm-2"><h5>Wallet:</h5></div><div class="col-sm-4"><span id="wallet_address" class="font-weight-bolder">0x0</span></div>
                                 </div>
                                 <div class="row mx-1">
-                                    <div class="col-sm-2"><h5>$FTM:</h5></div><div class="col-sm-4"><span id="ftm_balance" class="font-weight-bolder">0.0</span></div>
+                                    <div class="col-sm-2"><h5><span id="base0"></span>:</h5></div><div class="col-sm-4"><span id="ftm_balance" class="font-weight-bolder">0.0</span></div>
                                 </div>
                                 <div class="row mx-1">
-                                    <div class="col-sm-2"><h5>oFTM:</h5></div><div class="col-sm-4"><span id="oftm_balance" class="font-weight-bolder">0.0</span></div>
+                                    <div class="col-sm-2"><h5><span id="wrapped0"></span>:</h5></div><div class="col-sm-4"><span id="oftm_balance" class="font-weight-bolder">0.0</span></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6"><hr /></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-2"><h5>$FTM Bid:</h5></div><div class="col-sm-4"><span id="ftm_bid" class="font-weight-bolder">$0.0</span></div>
+                                    <div class="col-sm-2"><h5><span id="base1"></span> Bid:</h5></div><div class="col-sm-4"><span id="ftm_bid" class="font-weight-bolder">$0.0</span></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-auto">
-                                        <label for="ftm_loan_amount" class="col-form-label">$FTM to loan</label>
+                                        <label for="ftm_loan_amount" class="col-form-label"><span id="base2"></span> to loan</label>
                                     </div>
                                     <div class="col-auto">
-                                            <input id="ftm_loan_amount" class="form-control" type="text" placeholder="0.0" aria-label="$FTM to loan">
+                                            <input id="ftm_loan_amount" class="form-control" type="text" placeholder="0.0" aria-label="amt to loan">
                                     </div>
                                     <div class="col-auto">
                                         <button class="btn btn-outline-dark" onclick="DoLoan();">Loan</button> &nbsp;
@@ -86,6 +86,12 @@
         let last_loan_amt = 0;
         let go_slow = true; 
         let web3 = null;
+
+        let quote_symbol = "MATIC/USDT"; //"FTM/USDT";
+        let base_symbol = "MATIC";
+        const base_substitution_ct = 5;
+        let wrapped_symbol = "aPolWMATIC";
+        const wrapped_substitution_ct = 1;
 
         function _shortenString (s, len) {
             let half = len / 2;
@@ -130,8 +136,8 @@
 
         async function getTokenBalances () {
             const addrs = [{
-                address: '0xed8F2C964b47D4d607a429D4eeA972B186E6f111',
-                token: "oFTM"
+                address: '0x6d80113e533a2C0fe82EaBD35f1875DcEA89Ea97',
+                token: "aPolWMATIC"
             }];
 
             const abi = [{
@@ -152,10 +158,11 @@
                 "payable": false,
                 "type": "function"
                 }];
+            
             try {
                 const inst = new web3.eth.Contract (abi, addrs[0].address);
                 const bal = await inst.methods.balanceOf (wallet_address).call();
-                oftm_balance = bal/100000000;
+                oftm_balance =web3.utils.fromWei (bal);
             }
             catch (err) {
                 console.log ("Wrong chain or bad contract/abi!");
@@ -163,25 +170,43 @@
         };
 
         async function makeLoan (ftm_amount) {
-            const OLA_LOAN_CONTRACT = "0xed8f2c964b47d4d607a429d4eea972b186e6f111";
-            const OLA_LOAN_MINT_ABI = [{
-                constant: false,
-                inputs: [],
-                name: "mint",
-                outputs: [],
-                payable: true,
-                stateMutability: "payable",
-                type: "function"
-            }];
+            const AAVE_ETH_LOAN_CONTRACT = "0xC1E320966c485ebF2A0A2A6d3c0Dc860A156eB1B";
+            const AAVE_ETH_LOAN_ABI = [
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "address",
+                            "name": "onBehalfOf",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint16",
+                            "name": "referralCode",
+                            "type": "uint16"
+                        }
+                    ],
+                    "name": "depositETH",
+                    "outputs": [],
+                    "stateMutability": "payable",
+                    "type": "function"
+                }
+            ];
+            const AAVE_POOL_ID = "0x794a61358D6845594F94dc1DB02A252b5b4814aD";
 
             console.log ("calling mint contract(1)");
             msg ("Waiting for loan to complete...");
-            const inst = new web3.eth.Contract (OLA_LOAN_MINT_ABI, OLA_LOAN_CONTRACT);
-            const res = await inst.methods.mint ().send({from: wallet_address, value:processFloatToContractNumberString(ftm_amount, 18)});
-            console.log ("results of mint:\n" + res.status);
+            const inst = new web3.eth.Contract (AAVE_ETH_LOAN_ABI, AAVE_ETH_LOAN_CONTRACT);
+            let res = await inst.methods.depositETH (AAVE_POOL_ID, wallet_address, 0).send({from: wallet_address, value:processFloatToContractNumberString(ftm_amount, 18)});
+            console.log ("results of contract:\n" + res.status);
             last_loan_amt = ftm_amount;
-            msg (`Loan transaction of ${last_loan_amt} $FTM is complete: <a href="https://ftmscan.com/tx/${res.transactionHash}" target=_blank>${res.transactionHash}</a>`);
-        };
+            msg (`Loan transaction of ${last_loan_amt} ${base_symbol} complete: <a href="https://polygonscan.com/tx/${res.transactionHash}" target=_blank>${res.transactionHash}</a>`);
+            return res;
+        }
 
         async function GetQuoteData (ticker) {
             let theUrl = "/api/v1/pd/webhook/API_KEY_GOES_HERE/kilroy.samplekchap/get_quote";
@@ -193,25 +218,34 @@
         async function UpdateData () {
             if (is_connected) {
                 console.log ("Updating data...");
+
+                for (var i=0;i<base_substitution_ct;i++) {
+                    $("#base"+i).html (base_symbol);
+                }
+                
+                for (var i=0;i<wrapped_substitution_ct;i++) {
+                    $("#wrapped"+i).html (wrapped_symbol);
+                }
+                
                 let bal = await web3.eth.getBalance (wallet_address);
                 last_ftm_balance = ftm_balance;
                 ftm_balance = web3.utils.fromWei (bal);
                 $("#ftm_balance").html (ftm_balance);
                 await getTokenBalances ();
                 $("#oftm_balance").html (oftm_balance);
-                let quote_data = await GetQuoteData ("FTM/USDT");
+                let quote_data = await GetQuoteData (quote_symbol);
                 $("#ftm_bid").html ("$"+quote_data.bid || "N/A");
-                if (last_ftm_balance != ftm_balance) { 
+                if (last_ftm_balance != ftm_balance) { //we got an update, slow down
                     go_slow = true;
                 }
                 if (go_slow) {
-                    setTimeout(UpdateData, 30000);
+                    setTimeout(UpdateData, 30000); //30 seconds
                 }
                 else {
-                    setTimeout(UpdateData, 3000);
+                    setTimeout(UpdateData, 3000); //3 seconds
                 }
             }
-        };
+        }
 
         async function DoConnect () {
             console.log (`Connecting app...`);
@@ -221,7 +255,7 @@
                 console.log ("click done");
                 if (is_connected) {
                     $("#app_connected_status").html ("Connected!");
-                    msg ("Click Loan to loan $FTM on SpiritSwap");
+                    msg (`Click Loan to loan ${base_symbol}`);
                     const accounts = await web3.eth.getAccounts();
                     wallet_address = accounts[0] || "0x0";
                     $("#wallet_address").html (_shortenString (wallet_address, 12));
@@ -242,28 +276,22 @@
             if (is_connected) {
                 let amt = $("#ftm_loan_amount").val ();
                 console.log (`loan amout: ${amt}`);
-                msg (`Loaning ${amt} $FTM...`);
-                go_slow = false;
-                await makeLoan (amt*1.0);
+                msg (`Loaning ${amt} ${base_symbol}...`);
+                go_slow = false; //quick updates until transaction completes
+                try {
+                    let res = await makeLoan (amt*1.0);
+                }
+                catch (err) {
+                    console.log (`\nDoLoan error: ${err}\n`);
+                    msg (`${err}`);
+                }
                 $("#ftm_loan_amount").val ("");
             }
             else {
                 msg ("Not connected! Click the Connect App button to proceed.");
             }
             return false;
-        };
-
-        async function DoTest () {
-            console.log (`DoTest`);
-            if (is_connected) {
-                await UpdateData();
-            }
-            else {
-                msg ("Not connected! Click the Connect App button to proceed.");
-            }
-            return false;
-        };
-
+        }
     </script>
 </body>
 

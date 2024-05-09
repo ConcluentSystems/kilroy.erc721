@@ -1,6 +1,8 @@
 {
     "displayName": "Kilroy Sample KCHAP",
     "templateName": "kilroy.samplekchap/samplekchap",
+    "description": "",
+    "bgColor": "transparent",
     "data": {
         "class": "GraphLinksModel",
         "nodeDataArray": [
@@ -15,9 +17,9 @@
                 "fill": "{\"0\":\"#112D3A\",\"1\":\"#11192A\"}",
                 "fill_template": "",
                 "opacity": 1,
-                "stroke": "#FCFAE2",
+                "stroke": "transparent",
                 "stroke_template": "",
-                "strokeWidth": 2,
+                "strokeWidth": 0,
                 "font": "12px \"Helvetica Neue\", Helvetica, Arial, sans-serif",
                 "fontStroke": "#FCFAE2",
                 "fontStroke_template": "",

@@ -35,28 +35,12 @@
                         "operation": "set_var_to",
                         "isServer": true,
                         "args": {
-                            "var_name": "args",
-                            "push_array_name": null,
-                            "field_name": null,
-                            "var_expr": {
-                                "type": "json",
-                                "arg": {
-                                    "type": "variable",
-                                    "arg": "webhook_args"
-                                }
-                            }
-                        }
-                    },
-                    {
-                        "operation": "set_var_to",
-                        "isServer": true,
-                        "args": {
                             "var_name": "ticker",
                             "push_array_name": null,
                             "field_name": null,
                             "var_expr": {
                                 "type": "object",
-                                "arg": "args",
+                                "arg": "webhook_args",
                                 "field_name": "ticker"
                             }
                         }
@@ -67,9 +51,7 @@
                         "args": {
                             "command": "exchange_block",
                             "command_args": {
-                                "exchange": "binance_us",
-                                "api_key": "",
-                                "api_secret": ""
+                                "exchange": "binanceus"
                             },
                             "success": [
                                 {
@@ -113,24 +95,11 @@
                         }
                     },
                     {
-                        "operation": "set_var_to",
-                        "isServer": true,
-                        "args": {
-                            "var_name": "ts",
-                            "push_array_name": null,
-                            "field_name": null,
-                            "var_expr": {
-                                "type": "current_time",
-                                "arg": ""
-                            }
-                        }
-                    },
-                    {
                         "operation": "set_value",
                         "isServer": true,
                         "args": {
                             "variable": "msg",
-                            "value": "${ticker} Bid: ${bid} at ${ts}"
+                            "value": "${ticker} is ${bid}"
                         }
                     },
                     {

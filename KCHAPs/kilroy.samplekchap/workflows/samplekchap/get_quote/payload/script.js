@@ -1,15 +1,16 @@
 /**
- * kilroy.samplekchap/samplekchap/get_quote.js - preflight/postflight functions for kilroy.samplekchap/samplekchap/get_quote
- * @module kilroy.samplekchap/samplekchap/get_quote
- * @file kilroy.samplekchap/samplekchap/get_quote preflight/postflight implementation
+ * kilroy.sampledapp/sampledapp/get_quote.js - preflight/postflight functions for kilroy.sampledapp/sampledapp/get_quote
+ * @module kilroy.sampledapp/sampledapp/get_quote
+ * @file kilroy.sampledapp/sampledapp/get_quote preflight/postflight implementation
  * @author system
- * @copyright Copyright ©2022, Concluent Systems, LLC. All rights reserved.
+ * @copyright Copyright ©2024, Concluent Systems, LLC. All rights reserved.
  */
 "use strict";
-const MODULE_NAME = "workflow:kilroy.samplekchap/samplekchap/get_quote";
+const MODULE_NAME = "workflow:kilroy.sampledapp/sampledapp/get_quote";
 const debug = require('debug')(MODULE_NAME);
 debug.log = console.info.bind(console); //https://github.com/visionmedia/debug#readme
 const Promise = require("bluebird"); // jshint ignore:line
+const appRoot = global.REBAR_NAMESPACE.__base; //require ('app-root-path');
 
 //-----------------------------------------------------
 

@@ -1,12 +1,12 @@
 /**
- * app/kilroy.samplekchap/samplekchap/init.js - preflight/postflight functions for kilroy.samplekchap/samplekchap/init
- * @module kilroy.samplekchap/samplekchap/init
- * @file kilroy.samplekchap/samplekchap/init preflight/postflight implementation
+ * app/kilroy.sampledapp/sampledapp/init.js - preflight/postflight functions for kilroy.sampledapp/sampledapp/init
+ * @module kilroy.sampledapp/sampledapp/init
+ * @file kilroy.sampledapp/sampledapp/init preflight/postflight implementation
  * @author system
  * @copyright Copyright ©2022, Concluent Systems, LLC. All rights reserved.
  */
 "use strict";
-const MODULE_NAME = "workflow:kilroy.samplekchap/samplekchap/init";
+const MODULE_NAME = "workflow:kilroy.sampledapp/sampledapp/init";
 const debug = require('debug')(MODULE_NAME);
 debug.log = console.info.bind(console); //https://github.com/visionmedia/debug#readme
 const Promise = require("bluebird"); // jshint ignore:line
