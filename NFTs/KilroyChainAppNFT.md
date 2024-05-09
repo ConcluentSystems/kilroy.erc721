@@ -1,3 +1,18 @@
+# Deploying a new NFT (on Canto)
+
+ * Visit (Remix)[https://remix.ethereum.org/#lang=en&optimize=false&runs=200&evmVersion=null&version=soljson-v0.8.25+commit.b61c2a91.js]
+ * inject Canto provider for FantomDev wallet
+ * load contract address: 0xFA5a1bE03C94Ee55cF403D7F9408F4296CbC0d52
+ * load ABI if necessary
+
+## Deploying
+ * Guess at a gas price...
+ * use the mint function passing a URL that starts with: data:application/json;base64,
+ * the remainder of the URL is the base64 encoded string of the KCHAP JSON file, which includes a ERC721 formatted JSON object with
+ an attribute: {"trait_type": "app", "value":"Base64EncodedKilroyZIPFileHere"}
+
+See KilroyChainAppNFT.json for more details. Note that the .zip file taht is encoded should include a massively minified version of all JSON, HTML, and Javascript.
+
 Contract Deployed at:
 
 0xFA5a1bE03C94Ee55cF403D7F9408F4296CbC0d52

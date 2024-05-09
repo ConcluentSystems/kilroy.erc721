@@ -1,0 +1,8 @@
+ - Copy the baseline kilroy.samplekchap to this folder
+ - Make changes to minify JSON, HTML, etc.
+   - uglify JSON
+   - remove console output, comments, spaces, etc. from HTML
+   - delete any unnecessary workflow script.js files
+ - create .zip and then base64 encode zip, insert base64 into JSON template
+   - zip -r kilroy.samplekchap.zip kilroy.samplekchap -x '**/.*'
+ - base64 full JSON and use as URL contents for token burn
