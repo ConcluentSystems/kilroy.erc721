@@ -2,7 +2,8 @@
  - Make changes to minify JSON, HTML, etc.
    - uglify JSON
    - remove console output, comments, spaces, etc. from HTML
-   - delete any unnecessary workflow script.js files
+   - delete any unnecessary workflow script.js, xml.xml files
  - create .zip and then base64 encode zip, insert base64 into JSON template
    - zip -r kilroy.samplekchap.zip kilroy.samplekchap -x '**/.*'
+   - [https://www.base64encode.org/](https://www.base64encode.org/)
  - base64 full JSON and use as URL contents for token burn

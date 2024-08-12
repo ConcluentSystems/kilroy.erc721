@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-12 mb-3">
                             <div class="info bg-light rounded-3 px-3 py-3">
-                                <h5 class="font-weight-bolder">Sample Kilroy Chain App - Loan v1.2</h5>
+                                <h5 class="font-weight-bolder">Sample Kilroy Chain App - Loan v1.4 (Base)</h5>
                                 <p class="pe-5">This will loan the specified amount of <span id="base4"></span> currency</p>
                                 <div class="row">
                                     <div class="col-sm-2"><h5>Wallet:</h5></div><div class="col-sm-4"><span id="wallet_address" class="font-weight-bolder">0x0</span></div>
@@ -87,10 +87,11 @@
         let go_slow = true; 
         let web3 = null;
 
-        let quote_symbol = "MATIC/USDT"; //"FTM/USDT";
-        let base_symbol = "MATIC";
+        let quote_symbol = "ETH/USDC";
+        let base_symbol = "ETH";
         const base_substitution_ct = 5;
-        let wrapped_symbol = "aPolWMATIC";
+        let wrapped_symbol = "aBasWETH";
+        let block_scanner_host = "basescan.org";
         const wrapped_substitution_ct = 1;
 
         function _shortenString (s, len) {
@@ -136,8 +137,8 @@
 
         async function getTokenBalances () {
             const addrs = [{
-                address: '0x6d80113e533a2C0fe82EaBD35f1875DcEA89Ea97',
-                token: "aPolWMATIC"
+                address: '0xd4a0e0b9149bcee3c920d2e00b5de09138fd8bb7',
+                token: wrapped_symbol
             }];
 
             const abi = [{
@@ -170,7 +171,7 @@
         };
 
         async function makeLoan (ftm_amount) {
-            const AAVE_ETH_LOAN_CONTRACT = "0xC1E320966c485ebF2A0A2A6d3c0Dc860A156eB1B";
+            const AAVE_ETH_LOAN_CONTRACT = "0x8be473dCfA93132658821E67CbEB684ec8Ea2E74";
             const AAVE_ETH_LOAN_ABI = [
                 {
                     "inputs": [
@@ -196,7 +197,7 @@
                     "type": "function"
                 }
             ];
-            const AAVE_POOL_ID = "0x794a61358D6845594F94dc1DB02A252b5b4814aD";
+            const AAVE_POOL_ID = "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5";
 
             console.log ("calling mint contract(1)");
             msg ("Waiting for loan to complete...");
@@ -204,7 +205,7 @@
             let res = await inst.methods.depositETH (AAVE_POOL_ID, wallet_address, 0).send({from: wallet_address, value:processFloatToContractNumberString(ftm_amount, 18)});
             console.log ("results of contract:\n" + res.status);
             last_loan_amt = ftm_amount;
-            msg (`Loan transaction of ${last_loan_amt} ${base_symbol} complete: <a href="https://polygonscan.com/tx/${res.transactionHash}" target=_blank>${res.transactionHash}</a>`);
+            msg (`Loan transaction of ${last_loan_amt} ${base_symbol} complete: <a href="https://${block_scanner_host}/tx/${res.transactionHash}" target=_blank>${res.transactionHash}</a>`);
             return res;
         }
 
@@ -235,14 +236,14 @@
                 $("#oftm_balance").html (oftm_balance);
                 let quote_data = await GetQuoteData (quote_symbol);
                 $("#ftm_bid").html ("$"+quote_data.bid || "N/A");
-                if (last_ftm_balance != ftm_balance) { //we got an update, slow down
+                if (last_ftm_balance != ftm_balance) {
                     go_slow = true;
                 }
                 if (go_slow) {
-                    setTimeout(UpdateData, 30000); //30 seconds
+                    setTimeout(UpdateData, 30000);
                 }
                 else {
-                    setTimeout(UpdateData, 3000); //3 seconds
+                    setTimeout(UpdateData, 3000);
                 }
             }
         }
@@ -277,7 +278,7 @@
                 let amt = $("#ftm_loan_amount").val ();
                 console.log (`loan amout: ${amt}`);
                 msg (`Loaning ${amt} ${base_symbol}...`);
-                go_slow = false; //quick updates until transaction completes
+                go_slow = false;
                 try {
                     let res = await makeLoan (amt*1.0);
                 }
