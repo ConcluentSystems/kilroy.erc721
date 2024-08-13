@@ -1,3 +1,11 @@
+# Kilroy Contracts info
+
+  - Deploy KilroyChainAppNFT.sol with Remix
+    - [https://remix.ethereum.org/](https://remix.ethereum.org/)
+  - Follow instructions in KCHAPS/minified-zip/README.md to deploy embedded app tokens
+  - Default contract address on all chains is 0xFA5a1bE03C94Ee55cF403D7F9408F4296CbC0d52
+
+
 ![Build Status](https://travis-ci.org/nibbstack/erc721.svg?branch=master)&nbsp;[![codecov](https://codecov.io/gh/nibbstack/erc721/branch/master/graph/badge.svg?token=F0tgRHyWSM)](https://codecov.io/gh/nibbstack/erc721)&nbsp;[![NPM Version](https://badge.fury.io/js/@0xcert%2Fethereum-erc721.svg)](https://www.npmjs.com/package/@nibbstack/erc721)&nbsp;[![Bug Bounty](https://img.shields.io/badge/bounty-open-2930e8.svg)](https://github.com/nibbstack/erc721/blob/master/BUG_BOUNTY.md)
 
 # ERC-721 Token — Reference Implementation
